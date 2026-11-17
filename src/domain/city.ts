@@ -1,9 +1,11 @@
+import Accommodation from "./accommodation.ts";
 class City {
   #cityName!: string;
   #country!: string;
   #dateFrom!: Date;
   #dateTo!: Date;
   #notes: string = "";
+  #accommodation: Accommodation | null = null;
 
   constructor(
     cityName: unknown,
@@ -18,6 +20,17 @@ class City {
     this.setDateFrom(dateFrom);
     this.setDateTo(dateTo);
     this.setNotes(notes);
+  }
+
+  addAccommodation(accommodation: Accommodation): void {
+    if (!(accommodation instanceof Accommodation)) {
+      throw new Error("Invalid accommodation");
+    }
+    this.#accommodation = accommodation;
+  }
+
+  getAccommodation(): Accommodation | null {
+    return this.#accommodation;
   }
 
   getCountry(): string {
@@ -125,10 +138,7 @@ class City {
   }
 }
 
-export function calculateDurationDays(
-  dateFrom?: Date,
-  dateTo?: Date,
-): number {
+export function calculateDurationDays(dateFrom?: Date, dateTo?: Date): number {
   if (!dateFrom || !dateTo) return 0;
   const a = new Date(dateFrom);
   const b = new Date(dateTo);
@@ -139,4 +149,3 @@ export function calculateDurationDays(
 }
 
 export default City;
-

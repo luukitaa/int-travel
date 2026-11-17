@@ -78,9 +78,7 @@ function setDefaultDates(): void {
   const from = document.getElementById(
     "city-date-from",
   ) as HTMLInputElement | null;
-  const to = document.getElementById(
-    "city-date-to",
-  ) as HTMLInputElement | null;
+  const to = document.getElementById("city-date-to") as HTMLInputElement | null;
   if (from && !from.value) from.value = today;
   if (to && !to.value) to.value = today;
 }
@@ -111,11 +109,7 @@ function formatDateIso(d: string | Date): string {
   }
 }
 
-function showToast(
-  title: string,
-  message: string,
-  variant = "primary",
-): void {
+function showToast(title: string, message: string, variant = "primary"): void {
   const container = document.getElementById("alert-container");
   if (!container) return;
 

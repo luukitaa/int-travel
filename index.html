@@ -19,6 +19,7 @@
       <header class="text-center mb-4">
         <h1 class="mb-0">Travel Planner</h1>
       </header>
+      <div id="alert-container" aria-live="polite"></div>
 
       <!-- Nav (pills) -->
       <ul class="nav nav-pills mb-3" id="main-tabs" role="tablist">
@@ -96,10 +97,32 @@
                   <legend class="float-none w-auto px-2 fs-5">
                     Alojamiento
                   </legend>
-                  <div class="alert alert-info mb-0" role="status">
-                    <span class="badge text-bg-info me-2">Próximamente</span>
-                    Aquí podrás agregar el alojamiento de esta ciudad.
-                  </div>
+                  <div class="row g-3">
+  <div class="col-md-6">
+    <label for="accommodation-name" class="form-label">
+      Nombre del alojamiento
+    </label>
+    <input
+      id="accommodation-name"
+      class="form-control"
+      required
+    />
+  </div>
+
+  <div class="col-md-6">
+    <label for="accommodation-cost" class="form-label">
+      Costo del alojamiento
+    </label>
+    <input
+      id="accommodation-cost"
+      class="form-control"
+      type="number"
+      min="0"
+      step="any"
+      required
+    />
+  </div>
+</div>
                 </fieldset>
 
                 <div class="col-12">
@@ -135,6 +158,8 @@
                     <th>Fecha ida</th>
                     <th>Fecha vuelta</th>
                     <th>Notas</th>
+                    <th>Alojamiento</th>
+                    <th>Costo alojamiento</th>
                   </tr>
                 </thead>
                 <tbody id="cities-tbody"></tbody>

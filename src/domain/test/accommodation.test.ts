@@ -14,8 +14,8 @@ describe("Accommodation", () => {
     });
 
     test("should throw error if name is missing", () => {
-      expect(() =>
-        new Accommodation(undefined as unknown as string, 100),
+      expect(
+        () => new Accommodation(undefined as unknown as string, 100),
       ).toThrow();
     });
 
@@ -45,11 +45,11 @@ describe("Accommodation", () => {
 
     test("should throw error if cost is not a number", () => {
       expect(() => new Accommodation("Hotel", NaN)).toThrow();
-      expect(() =>
-        new Accommodation("Hotel", "100" as unknown as number),
+      expect(
+        () => new Accommodation("Hotel", "100" as unknown as number),
       ).toThrow();
-      expect(() =>
-        new Accommodation("Hotel", undefined as unknown as number),
+      expect(
+        () => new Accommodation("Hotel", undefined as unknown as number),
       ).toThrow();
     });
 

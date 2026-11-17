@@ -1,5 +1,6 @@
 import TripManager from "./domain/tripManager.ts";
 import City from "./domain/city.ts";
+import Accommodation from "./domain/accommodation.ts";
 
 const manager = new TripManager();
 const form = document.getElementById("city-form") as HTMLFormElement | null;
@@ -19,6 +20,9 @@ function renderCities(): void {
     const dateTo = formatDateIso(city.getDateTo ? city.getDateTo() : "");
     const country = city.getCountry ? city.getCountry() || "" : "";
     const duration = city.getDurationDays() ? city.getDurationDays() : "";
+    const accommodation = city.getAccommodation();
+    const accommodationName = accommodation?.getName() || "Sin alojamiento";
+    const accommodationCost = accommodation?.getCost();
     const notesText = city.getNotes ? String(city.getNotes() || "") : "";
     const notesHtml = notesText
       ? notesText
@@ -26,11 +30,15 @@ function renderCities(): void {
     tr.innerHTML = `<td>
     <strong>${city.getName()}</strong>
     </td>
-    <td>${country}</td>
+    <td><span class="badge text-bg-primary"></span></td>
+    <td>${accommodationName}</td>
+    <td>${accommodationCost ?? "—"}</td>
     <td>${duration ? `${duration} días` : "—"}</td>
     <td>${dateFrom}</td>
     <td>${dateTo}</td>
     <td>${notesHtml}</td>`;
+    const countryBadge = tr.querySelector(".badge");
+    if (countryBadge) countryBadge.textContent = country;
     citiesTbody.appendChild(tr);
   });
 }
@@ -47,19 +55,42 @@ function handleCityFormSubmit(e: SubmitEvent): void {
     .value;
   const notes = (document.getElementById("city-notes") as HTMLTextAreaElement)
     .value;
+  const accommodationName = (
+    document.getElementById("accommodation-name") as HTMLInputElement
+  ).value;
 
-  const city = new City(
-    name,
-    country,
-    new Date(dateFrom),
-    new Date(dateTo),
-    notes,
-  );
-  if (!city) {
-    showToast("Error", "No se pudo crear la ciudad", "danger");
+  const accommodationCost = (
+    document.getElementById("accommodation-cost") as HTMLInputElement
+  ).value;
+
+  if (accommodationName.trim() === "" || accommodationCost.trim() === "") {
+    showToast("Error", "Complete los datos del alojamiento", "danger");
     return;
   }
-  if (!saveCity(city)) return;
+
+  try {
+    const city = new City(
+      name,
+      country,
+      new Date(dateFrom),
+      new Date(dateTo),
+      notes,
+    );
+
+    const accommodation = new Accommodation(
+      accommodationName,
+      Number(accommodationCost),
+    );
+
+    city.addAccommodation(accommodation);
+
+    if (!saveCity(city)) return;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    showToast("Error", message, "danger");
+    return;
+  }
+
   showToast("Éxito", "Ciudad agregada", "success");
   renderCities();
   form?.reset();

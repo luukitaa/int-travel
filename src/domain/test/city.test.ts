@@ -98,13 +98,13 @@ describe("City dates", () => {
   });
 
   test("should throw error if a date is missing", () => {
-    expect(() =>
-      city.validateDatesOrder(null, new Date("2023-05-04")),
-    ).toThrow("Both dateFrom and dateTo are required");
+    expect(() => city.validateDatesOrder(null, new Date("2023-05-04"))).toThrow(
+      "Both dateFrom and dateTo are required",
+    );
 
-    expect(() =>
-      city.validateDatesOrder(new Date("2023-05-01"), null),
-    ).toThrow("Both dateFrom and dateTo are required");
+    expect(() => city.validateDatesOrder(new Date("2023-05-01"), null)).toThrow(
+      "Both dateFrom and dateTo are required",
+    );
   });
 
   test("should throw error if a date is invalid", () => {
@@ -120,9 +120,9 @@ describe("City dates", () => {
   });
 
   test("should throw error if a date has unsupported type", () => {
-    expect(() =>
-      city.validateDatesOrder({}, new Date("2023-05-04")),
-    ).toThrow("Invalid date format");
+    expect(() => city.validateDatesOrder({}, new Date("2023-05-04"))).toThrow(
+      "Invalid date format",
+    );
   });
 });
 
